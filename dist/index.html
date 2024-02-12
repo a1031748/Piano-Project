@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Piano Project</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app">
+  
+  <div class="audioplayer" v-for='s in sounddata'>
+<!--     <label>{{s.number}}</label> -->
+    <audio :data-num='s.number'>
+      <source :src="s.url" type="audio/ogg">
+    </audio>
+  </div>
+  <div class="center_box">
+    <h2>Piano Project</h2>
+    <div class="keyboard">
+      <div class="pianokey" v-for='s in display_keys'>
+        <div class="white" v-if='s.type=="white"' @click="addnote(s.num,1)" :class='get_current_highlight(s.num,s.key)?"playing":" "'>
+          
+        </div>
+        <div class="black" v-if='s.type=="black"' @click="addnote(s.num,1)" :class='get_current_highlight(s.num,s.key)?"playing":" "'>
+        
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="controls">
+      <ul class="notes_list" v-if="notes.length>0">
+<!--         三元條件運算子 -->
+        <li v-for="(note,id) in notes" :key="note" :class='now_note_id-1==id?"playing":" "'>
+          <div class="num">{{note.num}}</div>
+          <div class="time">{{note.time}}</div>
+        </li>
+      </ul>
+      <button @click="load_sample">Sample</button>
+      <button @click="playnext(1)">Playnext</button>
+      <button v-if="playing_time<=0" @click="startplay">Startplay</button>
+      <button v-if="playing_time>=1"  @click="stopplay">Stopplay</button>
+      <button v-if="record_time<=0" @click="start_record">Record</button>
+      <button v-if="record_time>=1" @click="stop_record">Stoprecord</button>
+      <button @click="notes=[]">Clear</button>
+      <h4>{{playing_time+record_time}}</h4>
+    </div>
+  </div>
+  
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.prod.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
